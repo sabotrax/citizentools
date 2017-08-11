@@ -21,7 +21,6 @@
 # along with citizentools.  If not, see <http://www.gnu.org/licenses/>.
 
 # TODO
-# redirects fuer alte aufrufe bauen
 # dazu /citizen/random_famous soll ausgewaehlte Citizens zeigen
 
 require "bundler"
@@ -126,6 +125,19 @@ namespace "/ct/api/v1" do
       :logo => logo,
     }
     org.to_json
+  end
+
+end
+
+# Redirects fuer alte API
+namespace "/vakss/api/v1" do
+
+  get "/citizen/:handle" do |handle|
+    redirect "/ct/api/v1/citizen/#{handle}", 301
+  end
+
+  get "/org/:sid" do |sid|
+    redirect "/ct/api/v1/org/#{sid}", 301
   end
 
 end
