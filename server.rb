@@ -21,7 +21,6 @@
 # along with citizentools.  If not, see <http://www.gnu.org/licenses/>.
 
 # TODO
-# dazu /citizen/random_famous soll ausgewaehlte Citizens zeigen
 
 require "bundler"
 require "logger"
@@ -63,6 +62,11 @@ namespace "/ct/api/v1" do
       }
       $3.to_s + month[$1] + "%02d" % $2
     end
+  end
+
+  get "/citizen/random_famous" do
+    famous_citizen = %w(croberts68 discolando WLeverett_CIG boredgameruk).sample
+    redirect "/ct/api/v1/citizen/#{famous_citizen}"
   end
 
   get "/citizen/:handle" do |handle|
