@@ -18,16 +18,18 @@
 # You should have received a copy of the GNU General Public License
 # along with citizenzools.  If not, see <http://www.gnu.org/licenses/>.
 
+require "json"
 require "minitest/autorun"
 require "open-uri"
-require "json"
 
 class TestVakss < Minitest::Test
 
     def setup
-	citizen_json = open('https://tools.isle-of-hope.de/vakss/api/v1/citizen/killsignal').read
+	#citizen_json = open('https://tools.isle-of-hope.de/vakss/api/v1/citizen/killsignal').read
+	citizen_json = open('http://localhost:4567/ct/api/v1/citizen/killsignal').read
 	@citizen = JSON.parse(citizen_json)
-	org_json = open('https://tools.isle-of-hope.de/vakss/api/v1/org/ihope').read
+	#org_json = open('https://tools.isle-of-hope.de/vakss/api/v1/org/ihope').read
+	org_json = open('http://localhost:4567/ct/api/v1/org/ihope').read
 	@org = JSON.parse(org_json)
     end
 
