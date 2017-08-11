@@ -5,7 +5,7 @@
 #
 # Copyright 2017 marcus@dankesuper.de
 #
-# This file is part of citizenzools.
+# This file is part of citizentools.
 
 # citizenzools is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,13 +18,14 @@
 # GNU General Public License for more details.
 
 # You should have received a copy of the GNU General Public License
-# along with citizenzools.  If not, see <http://www.gnu.org/licenses/>.
+# along with citizentools.  If not, see <http://www.gnu.org/licenses/>.
 
 # TODO
 # enlisted_iso auf korrekte form testen
 # test fuer enlisted schreiben
 # auf bundler.require umstellen
 # redirects fuer alte aufrufe bauen
+# dazu /citizen/random_famous soll ausgewaehlte Citizens zeigen
 
 require "json"
 require "logger"
@@ -70,13 +71,13 @@ namespace "/ct/api/v1" do
     end
   end
 
-  get "/citizen/:citizen" do |citizen|
+  get "/citizen/:handle" do |handle|
     logger.info "#{request.ip} #{request.path} #{request.query_string}"
-    citizen.downcase!
+    handle.downcase!
     begin
-      page = Nokogiri::HTML(open("https://robertsspaceindustries.com/citizens/#{citizen}"))
+      page = Nokogiri::HTML(open("https://robertsspaceindustries.com/citizens/#{handle}"))
     rescue => e
-      halt(404, "Citizen not found.")
+      halt 400, { status: 400, message: "Handle not found" }.to_json
     end
     data = []
     data = page.css("title").text.split("|")
@@ -105,7 +106,7 @@ namespace "/ct/api/v1" do
     begin
       page = Nokogiri::HTML(open("https://robertsspaceindustries.com/orgs/#{sid}"))
     rescue => e
-      halt(404, "SID not found.")
+      halt 400, { status: 400, message: "SID not found" }.to_json
     end
     title = page.css("title").text
     title =~ /^(.+) \[.+/
