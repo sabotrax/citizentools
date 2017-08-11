@@ -21,17 +21,14 @@
 # along with citizentools.  If not, see <http://www.gnu.org/licenses/>.
 
 # TODO
-# auf bundler.require umstellen
 # redirects fuer alte aufrufe bauen
 # dazu /citizen/random_famous soll ausgewaehlte Citizens zeigen
 
-require "json"
+require "bundler"
 require "logger"
-require "nokogiri"
 require "open-uri"
-require "sinatra"
-require "sinatra/namespace"
-require "sinatra/reloader"
+
+Bundler.require
 
 set :environment, :development
 #set :environment, :production
