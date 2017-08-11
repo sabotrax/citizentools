@@ -22,7 +22,6 @@
 
 # TODO
 # enlisted_iso auf korrekte form testen
-# helper auslagern
 # test fuer enlisted schreiben
 # auf bundler.require umstellen
 # redirects fuer alte aufrufe bauen
@@ -50,6 +49,27 @@ namespace "/ct/api/v1" do
     content_type "application/json"
   end
 
+  helpers do
+    def enlisted_to_iso(date)
+      date =~ /(\w{1,3}) (\d{1,2}), (\d{4})/
+      month = {
+	"Jan"	=> "01",
+	"Feb"	=> "02",
+	"Mar"	=> "03",
+	"Apr"	=> "04",
+	"May"	=> "05",
+	"Jun"	=> "06",
+	"Jul"	=> "07",
+	"Aug"	=> "08",
+	"Sep"	=> "09",
+	"Oct"	=> "10",
+	"Nov"	=> "11",
+	"Dec"	=> "12"
+      }
+      $3.to_s + month[$1] + "%02d" % $2
+    end
+  end
+
   get "/citizen/:citizen" do |citizen|
     logger.info "#{request.ip} #{request.path} #{request.query_string}"
     citizen.downcase!
@@ -67,23 +87,8 @@ namespace "/ct/api/v1" do
     end
     citizen_record = page.css("p.entry.citizen-record strong.value").text
     enlisted = page.css("div.left-col div.inner p.entry strong.value")[2].text
-    # datum formatieren
-    enlisted =~ /(\w{1,3}) (\d{1,2}), (\d{4})/
-    month = {
-      "Jan"	=> "01",
-      "Feb"	=> "02",
-      "Mar"	=> "03",
-      "Apr"	=> "04",
-      "May"	=> "05",
-      "Jun"	=> "06",
-      "Jul"	=> "07",
-      "Aug"	=> "08",
-      "Sep"	=> "09",
-      "Oct"	=> "10",
-      "Nov"	=> "11",
-      "Dec"	=> "12"
-    }
-    enlisted_iso = $3.to_s + month[$1] + "%02d" % $2
+    # datum normalisieren
+    enlisted_iso = enlisted_to_iso(enlisted)
     user = {
       :handle	=> data[0].strip,
       :citizen_record => citizen_record.sub(/^#/, "").strip,
