@@ -37,7 +37,7 @@ end
 
 logger = Logger.new("./log/citizentools.log")
 
-namespace "/ct/api/v1" do
+namespace "/api/v1" do
 
   before do
     content_type "application/json"
