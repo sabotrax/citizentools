@@ -21,8 +21,6 @@
 # along with citizentools.  If not, see <http://www.gnu.org/licenses/>.
 
 # TODO
-# enlisted_iso auf korrekte form testen
-# test fuer enlisted schreiben
 # auf bundler.require umstellen
 # redirects fuer alte aufrufe bauen
 # dazu /citizen/random_famous soll ausgewaehlte Citizens zeigen

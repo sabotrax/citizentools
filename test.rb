@@ -24,69 +24,73 @@ require "open-uri"
 
 class TestVakss < Minitest::Test
 
-    def setup
-	#citizen_json = open('https://tools.isle-of-hope.de/vakss/api/v1/citizen/killsignal').read
-	citizen_json = open('http://localhost:4567/ct/api/v1/citizen/killsignal').read
-	@citizen = JSON.parse(citizen_json)
-	#org_json = open('https://tools.isle-of-hope.de/vakss/api/v1/org/ihope').read
-	org_json = open('http://localhost:4567/ct/api/v1/org/ihope').read
-	@org = JSON.parse(org_json)
-    end
+  def setup
+    #citizen_json = open('https://tools.isle-of-hope.de/vakss/api/v1/citizen/killsignal').read
+    citizen_json = open('http://localhost:4567/ct/api/v1/citizen/killsignal').read
+    @citizen = JSON.parse(citizen_json)
+    #org_json = open('https://tools.isle-of-hope.de/vakss/api/v1/org/ihope').read
+    org_json = open('http://localhost:4567/ct/api/v1/org/ihope').read
+    @org = JSON.parse(org_json)
+  end
 
-    # test /citizen
+  # test /citizen
 
-    def test_citizen_handle_is_killsignal
-	assert_equal "killsignal", @citizen["handle"]
-    end
+  def test_citizen_handle_is_killsignal
+    assert_equal "killsignal", @citizen["handle"]
+  end
 
-    def test_citizen_record_is_1232597
-	assert_equal "1232597", @citizen["citizen_record"]
-    end
+  def test_citizen_record_is_1232597
+    assert_equal "1232597", @citizen["citizen_record"]
+  end
 
-    def test_citizen_org_is_isle_of_hope
-	assert_equal "Isle of Hope", @citizen["org"]
-    end
+  def test_citizen_enlisted_is_20160202
+    assert_equal "20160202", @citizen["enlisted"]
+  end
 
-    def test_citizen_sid_is_ihope
-	assert_match "IHOPE", @citizen["sid"]
-    end
+  def test_citizen_org_is_isle_of_hope
+    assert_equal "Isle of Hope", @citizen["org"]
+  end
 
-    # test /org
+  def test_citizen_sid_is_ihope
+    assert_match "IHOPE", @citizen["sid"]
+  end
 
-    def test_org_name_is_isle_of_hope
-	assert_equal "Isle of Hope", @org["name"]
-    end
+  # test /org
 
-    def test_org_members_is_number
-	assert_match /\d+/, @org["members"]
-    end
+  def test_org_name_is_isle_of_hope
+    assert_equal "Isle of Hope", @org["name"]
+  end
 
-    def test_org_archetype_is_corporation
-	assert_equal "Corporation", @org["archetype"]
-    end
+  def test_org_members_is_number
+    assert_match /\d+/, @org["members"]
+  end
 
-    def test_org_primary_activity_is_social
-	assert_equal "Social", @org["primary_activity"]
-    end
+  def test_org_archetype_is_corporation
+    assert_equal "Corporation", @org["archetype"]
+  end
 
-    def test_org_secondary_activity_is_security
-	assert_equal "Security", @org["secondary_activity"]
-    end
+  def test_org_primary_activity_is_social
+    assert_equal "Social", @org["primary_activity"]
+  end
 
-    def test_org_commitment_is_regular
-	assert_equal "Regular", @org["commitment"]
-    end
+  def test_org_secondary_activity_is_security
+    assert_equal "Security", @org["secondary_activity"]
+  end
 
-    def test_org_roleplay_is_no
-	assert_equal "No", @org["roleplay"]
-    end
+  def test_org_commitment_is_regular
+    assert_equal "Regular", @org["commitment"]
+  end
 
-    def test_org_membership_is_exclusive
-	assert_equal "Exclusive", @org["exclusive_membership"]
-    end
+  def test_org_roleplay_is_no
+    assert_equal "No", @org["roleplay"]
+  end
 
-    def test_org_logo_is_ihope
-	assert_match "IHOPE-Logo.png", @org["logo"]
-    end
+  def test_org_membership_is_exclusive
+    assert_equal "Exclusive", @org["exclusive_membership"]
+  end
+
+  def test_org_logo_is_ihope
+    assert_match "IHOPE-Logo.png", @org["logo"]
+  end
 
 end
