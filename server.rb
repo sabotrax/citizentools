@@ -116,10 +116,16 @@ namespace "/api/v1" do
     commitment = page.css("li.commitment").text
     roleplay = page.css("li.roleplay").text
     emembership = page.css("li.exclusive").text
-    logo = page.css("div.logo.noshadow img").attr("src").text
+    logo = page.css("div.logo.noshadow img")
+    # Element fehlt, wenn es nur das Standard-Logo gibt
+    if logo.empty?
+      logo = ""
+    else
+      logo = logo.attr("src").text
+    end
     org = {
-      :name	=> title.strip,
-      :members	=> members.sub(/ .+$/, "").strip,
+      :name => title.strip,
+      :members => members.sub(/ .+$/, "").strip,
       :archetype => archetype,
       :primary_activity => pactivity,
       :secondary_activity => sactivity,
