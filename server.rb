@@ -65,7 +65,7 @@ namespace "/api/v1" do
   end
 
   get "/citizen/random_famous" do
-    famous_citizen = %w(croberts68 discolando WLeverett_CIG boredgameruk).sample
+    famous_citizen = %w(croberts68 discolando WLeverett_CIG boredgameruk proxus-cig Zyloh-CIG TylerN-CIG).sample
     redirect "/ct/api/v1/citizen/#{famous_citizen}"
   end
 
