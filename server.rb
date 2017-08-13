@@ -77,23 +77,20 @@ namespace "/api/v1" do
     rescue => e
       halt 400, { status: 400, message: "Handle not found" }.to_json
     end
-    data = []
-    data = page.css("title").text.split("|")
-    # keine Org
-    if data.size < 3
-      data[1] = ""
-      data[2] = ""
-    end
+    title = page.css("title").text
+    moniker, org, sid = /^(.+)\|(?: #{handle} - (.+)\|(.+) - .+| #{handle} - Roberts Space Industries)$/i.match(title).captures
+    org = "" if org.nil?
+    sid = "" if sid.nil?
     citizen_record = page.css("p.entry.citizen-record strong.value").text
     enlisted = page.css("div.left-col div.inner p.entry strong.value")[2].text
     # datum normalisieren
     enlisted_iso = enlisted_to_iso(enlisted)
     user = {
-      :handle	=> data[0].strip,
+      :moniker => moniker.strip,
       :citizen_record => citizen_record.sub(/^#/, "").strip,
       :enlisted	=> enlisted_iso,
-      :org	=> data[1].sub(/^.+ - /, "").strip,
-      :sid	=> data[2].sub(/\).*/, ")").strip,
+      :org => org.strip,
+      :sid => sid.strip
     }
     user.to_json
   end
