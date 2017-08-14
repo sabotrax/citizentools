@@ -25,18 +25,18 @@ require "open-uri"
 class TestVakss < Minitest::Test
 
   def setup
-    #citizen_json = open('https://tools.isle-of-hope.de/vakss/api/v1/citizen/killsignal').read
-    citizen_json = open('http://localhost:4567/ct/api/v1/citizen/killsignal').read
+    citizen_json = open('https://tools.isle-of-hope.de/ct/api/v1/citizen/killsignal').read
+    #citizen_json = open('http://localhost:4567/ct/api/v1/citizen/killsignal').read
     @citizen = JSON.parse(citizen_json)
-    #org_json = open('https://tools.isle-of-hope.de/vakss/api/v1/org/ihope').read
-    org_json = open('http://localhost:4567/ct/api/v1/org/ihope').read
+    org_json = open('https://tools.isle-of-hope.de/ct/api/v1/org/ihope').read
+    #org_json = open('http://localhost:4567/ct/api/v1/org/ihope').read
     @org = JSON.parse(org_json)
   end
 
   # test /citizen
 
-  def test_citizen_handle_is_killsignal
-    assert_equal "killsignal", @citizen["handle"]
+  def test_citizen_moniker_is_killsignal
+    assert_equal "killsignal", @citizen["moniker"]
   end
 
   def test_citizen_record_is_1232597

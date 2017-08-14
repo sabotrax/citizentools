@@ -28,8 +28,8 @@ require "open-uri"
 
 Bundler.require
 
-set :environment, :development
-#set :environment, :production
+#set :environment, :development
+set :environment, :production
 set :bind, "0.0.0.0"
 configure :development do
     register Sinatra::Reloader
