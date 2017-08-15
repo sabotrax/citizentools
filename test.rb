@@ -47,6 +47,10 @@ class TestVakss < Minitest::Test
     assert_equal "20160202", @citizen["enlisted"]
   end
 
+  def test_citizen_fluency_is_english
+    assert_equal ["English"], @citizen["fluency"]
+  end
+
   def test_citizen_org_is_isle_of_hope
     assert_equal "Isle of Hope", @citizen["org"]
   end
