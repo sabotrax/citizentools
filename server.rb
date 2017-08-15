@@ -28,8 +28,8 @@ require "open-uri"
 
 Bundler.require
 
-#set :environment, :development
-set :environment, :production
+set :environment, :development
+#set :environment, :production
 set :bind, "0.0.0.0"
 configure :development do
     register Sinatra::Reloader
@@ -65,7 +65,7 @@ namespace "/api/v1" do
   end
 
   get "/citizen/random_famous" do
-    famous_citizen = %w(croberts68 discolando WLeverett_CIG boredgameruk proxus-cig Zyloh-CIG TylerN-CIG).sample
+    famous_citizen = %w(croberts68 discolando WLeverett_CIG boredgameruk proxus-cig Zyloh-CIG TylerN-CIG wcloaf).sample
     redirect "/ct/api/v1/citizen/#{famous_citizen}"
   end
 
@@ -75,7 +75,7 @@ namespace "/api/v1" do
     begin
       page = Nokogiri::HTML(open("https://robertsspaceindustries.com/citizens/#{handle}"))
     rescue => e
-      halt 400, { status: 400, message: "Handle not found" }.to_json
+      halt 404, { status: 404, message: "Handle not found" }.to_json
     end
     title = page.css("title").text
     moniker, org, sid = /^(.+)\|(?: #{handle} - (.+)\|(.+) - .+| #{handle} - Roberts Space Industries)$/i.match(title).captures
@@ -101,7 +101,7 @@ namespace "/api/v1" do
     begin
       page = Nokogiri::HTML(open("https://robertsspaceindustries.com/orgs/#{sid}"))
     rescue => e
-      halt 400, { status: 400, message: "SID not found" }.to_json
+      halt 404, { status: 404, message: "SID not found" }.to_json
     end
     title = page.css("title").text
     title =~ /^(.+) \[.+/
