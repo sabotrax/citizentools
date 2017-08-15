@@ -85,10 +85,18 @@ namespace "/api/v1" do
     enlisted = page.css("div.left-col div.inner p.entry strong.value")[2].text
     # datum normalisieren
     enlisted_iso = enlisted_to_iso(enlisted)
+    fluency = page.css("div.left-col div.inner p.entry strong.value")[4]
+    if fluency.nil?
+      fluency = []
+    else
+      fluency = fluency.text.split(",")
+      fluency.map! {|i| i.strip }
+    end
     user = {
       :moniker => moniker.strip,
       :citizen_record => citizen_record.sub(/^#/, "").strip,
       :enlisted	=> enlisted_iso,
+      :fluency => fluency,
       :org => org.strip,
       :sid => sid.strip
     }
