@@ -25,11 +25,9 @@ require "open-uri"
 class TestVakss < Minitest::Test
 
   def setup
-    citizen_json = open('https://tools.isle-of-hope.de/ct/api/v1/citizen/killsignal').read
-    #citizen_json = open('http://localhost:4567/ct/api/v1/citizen/killsignal').read
+    citizen_json = open('http://localhost:4567/api/v1/citizen/killsignal').read
     @citizen = JSON.parse(citizen_json)
-    org_json = open('https://tools.isle-of-hope.de/ct/api/v1/org/ihope').read
-    #org_json = open('http://localhost:4567/ct/api/v1/org/ihope').read
+    org_json = open('http://localhost:4567/api/v1/org/ihope').read
     @org = JSON.parse(org_json)
   end
 
