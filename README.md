@@ -33,7 +33,7 @@ It's [here](https://sabotrax.github.io/slate).
 
 * Access the API in your favorite browser:
 
-  http://localhost:4567/api/v1/citizen/croberts68 (Webrick is listening on 0.0.0.0 too.)
+  http://localhost:4567/api/v1/citizen/croberts68 (WEBrick is listening on 0.0.0.0 too.)
 
 ### Installing production-ready
 
