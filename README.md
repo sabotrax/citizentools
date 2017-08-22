@@ -16,24 +16,30 @@ It's [here](https://sabotrax.github.io/slate).
 (Provided you have a Ruby environment. If not, look [here](https://cbednarski.com/articles/installing-ruby/).)
 
 * After cloning the repository you might want to install the necessary Gems:
+
   `bundle install`
 
 * Create the log directory:
+
   `mkdir log`
 
 * Fire up the API server:
+
   `./server`
 
 * Run some tests:
+
   `ruby test.rb`
 
 * Access the API in your favorite browser:
+
   http://localhost:4567/api/v1/citizen/croberts68 (Webrick is listening on 0.0.0.0 too.)
 
 ### Installing production-ready
 
 * You need to install an application server like [Phusion Passenger](https://www.phusionpassenger.com/library/).
 * Configure your web server like I did for Apache:
+
   `PassengerRuby /your/ruby/interpreter/normally/called/ruby`  
   `Alias /ct /your/static/content/called/public`  
   `<Location /ct>`  
