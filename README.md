@@ -33,7 +33,7 @@ It's [here](https://sabotrax.github.io/slate).
 
 * Access the API in your favorite browser:
 
-  http://localhost:4567/api/v1/citizen/croberts68 (WEBrick is listening on 0.0.0.0 too.)
+  http://localhost:4567/api/v2/citizen/croberts68 (WEBrick is listening on 0.0.0.0 too.)
 
 ### Installing production-ready
 
@@ -52,7 +52,7 @@ It's [here](https://sabotrax.github.io/slate).
   `Require all granted`  
   `</Directory>`
 
-  Note that with **<Location /ct>** your URL changes from **http://host/api/v1/endpoint** to **http://host/ct/api/v1/endpoint**.
+  Note that with **<Location /ct>** your URL changes from **http://host/api/v2/endpoint** to **http://host/ct/api/v2/endpoint**.
 
 ### Remark
 I tend to mix English and German language throughout the project.
