@@ -156,3 +156,52 @@ namespace "/vakss/api/v1" do
   end
 
 end
+
+namespace "/api/v2" do
+
+  before do
+    content_type "application/json"
+  end
+
+  get "/citizen/:handle" do |handle|
+    logger.info "#{request.ip} #{request.path} #{request.query_string}"
+    handle.downcase!
+
+    # v1-Daten holen
+    status, headers, body = call env.merge("PATH_INFO" => "/api/v1/citizen/#{handle}")
+    #if status == "200"
+      #logger.info "tach"
+      citizen = JSON.parse(body.shift)
+    #else
+      #logger.info "nope"
+      #halt [status, headers, body.map]
+    #end
+
+    logger.info citizen
+    citizen["orgs"] = []
+    if citizen["org"]
+      citizen["orgs"].push({
+	"org" => citizen["org"],
+	"sid" => citizen["sid"].sub(/ .+$/, "")
+      })
+    end
+    %w{ org sid }.each{ |k| citizen.delete(k) }
+
+    # Daten um Nebenorganisationen erweitern
+    begin
+      logger.info handle
+      page = Nokogiri::HTML(open("https://robertsspaceindustries.com/citizens/#{handle}/organizations"))
+    rescue => e
+      halt 404, { status: 404, message: "Handle not found" }.to_json
+    end
+    page.css("div.box-content.org.affiliation").each do |affil|
+      info = affil.css("div.inner-bg.clearfix div.left-col div.inner.clearfix div.info")
+      citizen["orgs"].push({
+	"org" => info.css("p.entry.orgtitle a.value").text,
+	"sid" => info.css("p.entry strong.value")[0].text
+      })
+    end
+    citizen.to_json
+  end
+
+end
