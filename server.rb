@@ -100,6 +100,10 @@ namespace "/api/v1" do
       :org => org.strip,
       :sid => sid.strip
     }
+
+    # Hinweis auf veraltete v1
+    user[:tip] = "Check our new v2 API!"
+
     user.to_json
   end
 
@@ -184,7 +188,7 @@ namespace "/api/v2" do
 	"sid" => citizen["sid"].sub(/ .+$/, "")
       })
     end
-    %w{ org sid }.each{ |k| citizen.delete(k) }
+    %w{ org sid tip }.each{ |k| citizen.delete(k) }
 
     # Um Nebenorganisationen erweitern
     begin
