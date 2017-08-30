@@ -169,15 +169,13 @@ namespace "/api/v2" do
 
     # v1-Daten holen
     status, headers, body = call env.merge("PATH_INFO" => "/api/v1/citizen/#{handle}")
-    #if status == "200"
-      #logger.info "tach"
+    if status == 200
       citizen = JSON.parse(body.shift)
-    #else
-      #logger.info "nope"
-      #halt [status, headers, body.map]
-    #end
+    else
+      halt [status, headers, body]
+    end
 
-    logger.info citizen
+    # Citizen-Hash umbauen
     citizen["orgs"] = []
     if citizen["org"]
       citizen["orgs"].push({
@@ -187,7 +185,7 @@ namespace "/api/v2" do
     end
     %w{ org sid }.each{ |k| citizen.delete(k) }
 
-    # Daten um Nebenorganisationen erweitern
+    # Um Nebenorganisationen erweitern
     begin
       logger.info handle
       page = Nokogiri::HTML(open("https://robertsspaceindustries.com/citizens/#{handle}/organizations"))
