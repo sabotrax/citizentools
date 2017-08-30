@@ -177,7 +177,8 @@ namespace "/api/v2" do
 
     # Citizen-Hash umbauen
     citizen["orgs"] = []
-    if citizen["org"]
+    unless citizen["org"].empty?
+      logger.info "lalala"
       citizen["orgs"].push({
 	"org" => citizen["org"],
 	"sid" => citizen["sid"].sub(/ .+$/, "")
@@ -187,7 +188,6 @@ namespace "/api/v2" do
 
     # Um Nebenorganisationen erweitern
     begin
-      logger.info handle
       page = Nokogiri::HTML(open("https://robertsspaceindustries.com/citizens/#{handle}/organizations"))
     rescue => e
       halt 404, { status: 404, message: "Handle not found" }.to_json
@@ -200,6 +200,11 @@ namespace "/api/v2" do
       })
     end
     citizen.to_json
+  end
+
+  get "/org/:sid" do |sid|
+    status, headers, body = call env.merge("PATH_INFO" => "/api/v1/org/#{sid}")
+    [status, headers, body]
   end
 
 end
