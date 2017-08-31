@@ -185,7 +185,8 @@ namespace "/api/v2" do
       logger.info "lalala"
       citizen["orgs"].push({
 	"org" => citizen["org"],
-	"sid" => citizen["sid"].sub(/ .+$/, "")
+	"sid" => citizen["sid"].sub(/ .+$/, ""),
+        "type" => "main"
       })
     end
     %w{ org sid tip }.each{ |k| citizen.delete(k) }
@@ -200,7 +201,8 @@ namespace "/api/v2" do
       info = affil.css("div.inner-bg.clearfix div.left-col div.inner.clearfix div.info")
       citizen["orgs"].push({
 	"org" => info.css("p.entry.orgtitle a.value").text,
-	"sid" => info.css("p.entry strong.value")[0].text
+	"sid" => info.css("p.entry strong.value")[0].text,
+        "type" => "affiliate"
       })
     end
     citizen.to_json
