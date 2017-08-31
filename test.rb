@@ -25,36 +25,58 @@ require "open-uri"
 class TestVakss < Minitest::Test
 
   def setup
-    citizen_json = open('http://localhost:4567/api/v1/citizen/killsignal').read
+    citizen_json = open('http://localhost:4567/api/v2/citizen/perry_hope').read
     @citizen = JSON.parse(citizen_json)
-    org_json = open('http://localhost:4567/api/v1/org/ihope').read
+    org_json = open('http://localhost:4567/api/v2/org/ihope').read
     @org = JSON.parse(org_json)
   end
 
   # test /citizen
 
-  def test_citizen_moniker_is_killsignal
-    assert_equal "killsignal", @citizen["moniker"]
+  def test_citizen_moniker_is_perry_hope
+    assert_equal "Perry Hope", @citizen["moniker"]
   end
 
-  def test_citizen_record_is_1232597
-    assert_equal "1232597", @citizen["citizen_record"]
+  def test_citizen_record_is_635841
+    assert_equal "635841", @citizen["citizen_record"]
   end
 
-  def test_citizen_enlisted_is_20160202
-    assert_equal "20160202", @citizen["enlisted"]
+  def test_citizen_enlisted_is_20141030
+    assert_equal "20141030", @citizen["enlisted"]
   end
 
-  def test_citizen_fluency_is_english
-    assert_equal ["English"], @citizen["fluency"]
+  def test_citizen_fluency_is_german_english_turkish
+    assert_equal ["German", "English", "Turkish"], @citizen["fluency"]
   end
 
-  def test_citizen_org_is_isle_of_hope
-    assert_equal "Isle of Hope", @citizen["org"]
-  end
-
-  def test_citizen_sid_is_ihope
-    assert_match "IHOPE", @citizen["sid"]
+  def test_citizen_orgs_is_ioh_pakt_avocado_gadvocacy_oppf
+    assert_equal [
+      {
+        "org" => "Isle of Hope",
+        "sid" => "IHOPE",
+        "type" => "main"
+      },
+      {
+        "org" => "Protection Alliance - Knights of Terra",
+        "sid" => "PAKT",
+        "type" => "affiliate"
+      },
+      {
+        "org" => "Evocati - NDA",
+        "sid" => "AVOCADO",
+        "type" => "affiliate"
+      },
+      {
+        "org" => "German Advocacy",
+        "sid" => "GADVOCACY",
+        "type" => "affiliate"
+      },
+      {
+        "org" => "Operation Pitchfork",
+        "sid" => "OPPF",
+        "type" => "affiliate"
+      }
+    ] , @citizen["orgs"]
   end
 
   # test /org
