@@ -182,7 +182,6 @@ namespace "/api/v2" do
     # Citizen-Hash umbauen
     citizen["orgs"] = []
     unless citizen["org"].empty?
-      logger.info "lalala"
       citizen["orgs"].push({
 	"org" => citizen["org"],
 	"sid" => citizen["sid"].sub(/ .+$/, ""),
