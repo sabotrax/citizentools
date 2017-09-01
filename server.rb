@@ -30,9 +30,13 @@ Bundler.require
 
 set :environment, :development
 #set :environment, :production
-set :bind, "0.0.0.0"
+
+configure do
+  enable :cross_origin
+  set :bind, "0.0.0.0"
+end
 configure :development do
-    register Sinatra::Reloader
+  register Sinatra::Reloader
 end
 
 logger = Logger.new("./log/citizentools.log")
@@ -41,6 +45,7 @@ namespace "/api/v1" do
 
   before do
     content_type "application/json"
+    response.headers["Access-Control-Allow-Origin"] = '*'
   end
 
   helpers do
@@ -146,6 +151,13 @@ namespace "/api/v1" do
     org.to_json
   end
 
+  options "*" do
+    response.headers["Allow"] = "GET, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    200
+  end
+
 end
 
 # Redirects fuer alte API
@@ -165,6 +177,7 @@ namespace "/api/v2" do
 
   before do
     content_type "application/json"
+    response.headers["Access-Control-Allow-Origin"] = '*'
   end
 
   get "/citizen/:handle" do |handle|
@@ -210,6 +223,13 @@ namespace "/api/v2" do
   get "/org/:sid" do |sid|
     status, headers, body = call env.merge("PATH_INFO" => "/api/v1/org/#{sid}")
     [status, headers, body]
+  end
+
+  options "*" do
+    response.headers["Allow"] = "GET, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    200
   end
 
 end
