@@ -82,10 +82,14 @@ namespace "/api/v1" do
     rescue => e
       halt 404, { status: 404, message: "Handle not found" }.to_json
     end
-    title = page.css("title").text
-    moniker, org, sid = /^(.+)\|(?: #{handle} - (.+)\|(.+) - .+| #{handle} - Roberts Space Industries)$/i.match(title).captures
-    org = "" if org.nil?
-    sid = "" if sid.nil?
+
+    moniker = page.css("div.box-content.profile-wrapper.clearfix div.inner-bg.clearfix div.profile.left-col div.inner.clearfix div.info p.entry strong.value")[0].text
+    org = page.css("div.main-org.right-col.visibility-V div.info p.entry a").text || ""
+    sid = page.css("div.main-org.right-col.visibility-V div.info p.entry strong.value")[0]&.text || ""
+    rank = page.css("div.main-org.right-col.visibility-V div.info p.entry strong.value")[1]&.text || ""
+    if sid != "" and rank != ""
+      sid += " (#{rank})"
+    end
     citizen_record = page.css("p.entry.citizen-record strong.value").text
     enlisted = page.css("div.left-col div.inner p.entry strong.value")[2].text
     # datum normalisieren
@@ -97,6 +101,7 @@ namespace "/api/v1" do
       fluency = fluency.text.split(",")
       fluency.map! {|i| i.strip }
     end
+
     user = {
       :moniker => moniker.strip,
       :citizen_record => citizen_record.sub(/^#/, "").strip,
