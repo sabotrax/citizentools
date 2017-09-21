@@ -220,7 +220,7 @@ namespace "/api/v2" do
 	"org" => info.css("p.entry.orgtitle a.value").text,
 	"sid" => info.css("p.entry strong.value")[0].text,
         "type" => "affiliate"
-      })
+      }) if info.css("p.entry.orgtitle a.value").text =~ /\w+/
     end
     citizen.to_json
   end
